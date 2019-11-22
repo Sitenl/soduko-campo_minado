@@ -34,9 +34,9 @@ public class base {
                         if (celula == 0) {
                             System.out.print("\u25A1"); // Mostra um celula vazia □
                         }
-                        else if (celula == 8) {
-                            System.out.print("\u2691"); // Mostra uma bandeira ⚑
-                        }
+//                        else if (celula == 8) {
+//                            System.out.print("\u2691"); // Mostra uma bandeira ⚑
+//                        }
                         else if (celula == 9) {
                             System.out.print("\uD83D\uDCA3"); // Mostra uma bomba 💣
                         }
@@ -75,10 +75,63 @@ public class base {
         Boolean[][] grade = new Boolean[gradeOculta.length][gradeOculta[1].length];
         return grade;
     }
-//    public static void integarirGrade(int[][] gradeOculta, boolean[][] gradeVisualizacao) {
-//        Scanner ent = new Scanner(System.in);
-//        String comando = ent.nextLine();
-//        if (comando.substring())
-//            ent.close();
-//    }
+
+    public static void perdeu(int[][] gradeOculta, Boolean[][] gradeVisualizacao) {
+        System.out.println("Perdeu!");
+        for (int li = 0; li < gradeVisualizacao.length; li ++) {
+            for (int co = 0; co < gradeVisualizacao[li].length; co ++) {
+                gradeVisualizacao[li][co] = true;
+            }
+        }
+        imprimirGrade(gradeOculta, gradeVisualizacao);
+    }
+
+    public static boolean verificarAcerto (int[] pos, int vlr) {
+        if (vlr == gradeOculta[pos[0]][pos[1]]) {
+            gradeVisualizacao[pos[0]][pos[1]] = true;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public static boolean interagirGrade() {
+        Scanner ent = new Scanner(System.in);
+        String comando = ent.nextLine(); // Comando deve ser um string no seguinte formato "C 0, 0 0"
+        boolean acerto = true;
+        if (comando.length() == 8) {
+            char escolha = comando.charAt(0);
+            int[] pos = new int[2];
+            pos[0] = Integer.parseInt(comando.substring(2,3));
+            pos[1] = Integer.parseInt(comando.substring(5,6));
+            int vlr = Integer.parseInt(comando.substring(7,8));
+            if (escolha == 'I') { // I é o comando para inserir uma bandeira, no campo minado, ou um integer, no soduko.
+                if (soduko) {
+                    return verificarAcerto(pos, vlr);
+                }
+//                else {
+//                    acerto = verificarAcerto(pos, vlr);
+//                }
+
+            } else if (escolha == 'C') { // C é o comando para "clicar" no campo minado, vai resultar em erro se for soduko.
+                if (soduko) {
+                    System.out.println("Comando inválido para o Soduko.");
+                    return acerto;
+                }
+                else {
+                    return verificarAcerto(pos, vlr);
+                }
+            } else {
+                System.out.println("Comando não reconhecido. Tente 'M', 'I' ou ...");
+                return acerto;
+            }
+        }
+        else {
+            System.out.println("Comando malformatado. Tente novamente.");
+            return acerto;
+        }
+        ent.close();
+        return acerto;
+    }
 }
