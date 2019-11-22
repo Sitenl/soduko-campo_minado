@@ -16,9 +16,18 @@ public class base {
 
     public static void loop() {
         menu();
-        int[][] gradeOculta = gerarGradeOculta();
-        Boolean[][] gradeVisualizacao = gerarGradeDeVisualizacao(gradeOculta);
-        imprimirGrade(gradeOculta, gradeVisualizacao);
+        boolean rodando = true;
+        boolean venceu = false;
+        while (rodando) {
+            imprimirGrade(gradeOculta, gradeVisualizacao);
+            rodando = interagirGrade();
+        }
+        if (venceu) {
+            System.out.println("Parabéns, tu venceu!");
+        }
+        else {
+            perdeu(gradeOculta, gradeVisualizacao);
+        }
     }
 
     public static void menu(){
