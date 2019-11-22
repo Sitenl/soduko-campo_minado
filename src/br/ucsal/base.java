@@ -6,7 +6,12 @@ public class base {
 
     public static boolean soduko = true; // Estabelece se o jogo é soduko. Por padrão é soduko. Deve ser alterado pelo menu.
 
+    public static int[][] gradeOculta = gerarGradeOculta();
+
+    public static Boolean[][] gradeVisualizacao = gerarGradeDeVisualizacao(gradeOculta);
+
     public static void main(String[] args) {
+        loop();
     }
 
     public static void loop() {
